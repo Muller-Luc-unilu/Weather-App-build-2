@@ -1,0 +1,9 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+Weatherapp,com.example,WeatherForecast,12,0,0,0,1,0,1,0,1,0
+Weatherapp,com.example,App,53,0,2,0,14,0,3,0,2,0
+Weatherapp,com.example,WeatherParser,39,0,0,0,4,0,3,0,3,0
+Weatherapp,com.example,APIResponse,6,0,0,0,1,0,1,0,1,0
+Weatherapp,com.example,Weather,6,0,0,0,1,0,1,0,1,0
+Weatherapp,com.example,WeatherApi,29,0,0,0,7,0,2,0,2,0
+Weatherapp,com.example,ForecastEntry,12,0,0,0,1,0,1,0,1,0
+Weatherapp,com.example,Main,6,0,0,0,1,0,1,0,1,0

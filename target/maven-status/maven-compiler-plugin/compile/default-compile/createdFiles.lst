@@ -1,0 +1,8 @@
+com\example\WeatherApi.class
+com\example\Main.class
+com\example\Weather.class
+com\example\ForecastEntry.class
+com\example\App.class
+com\example\APIResponse.class
+com\example\WeatherForecast.class
+com\example\WeatherParser.class
