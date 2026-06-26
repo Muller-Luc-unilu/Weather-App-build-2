@@ -47,6 +47,16 @@ public class App
     System.out.println("Average Day Temp: " + avg_temperature + "°C");
     System.out.println("Average Day Time Sky: " + score);
     System.out.println();
+    System.out.println("Next Hours:");
+    for (int i = 0; i < 3; i++) {
+    String time = forecasts.get(i).time().substring(11, 16); // HH:mm
+    double temp = forecasts.get(i).temperature();
+    String desc = forecasts.get(i).description();
+    System.out.println(time + "   "+temp+ "°C  " + desc);
+}
+
+    System.out.println();
+    System.out.println();
     System.out.println("================================");
     System.out.println("=            ENDING            =");
     System.out.println("================================");
