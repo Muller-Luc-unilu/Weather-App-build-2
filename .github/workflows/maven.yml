@@ -2,18 +2,15 @@ name: Maven CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 env:
   JDK_DIST: 'temurin'
   JDK_VERSION: '25'
 
 jobs:
-
   build-test-package-store:
     name: Build, test, and store package
     runs-on: ubuntu-latest
@@ -29,11 +26,22 @@ jobs:
           java-version: ${{ env.JDK_VERSION }}
           cache: 'maven'
 
+      - name: Run Checkstyle
+        run: mvn --batch-mode checkstyle:check
+
       - name: Build, test, and package with Maven
-        # We use clean to make sure we don't have any leftover files from previous builds.
         run: mvn --batch-mode --update-snapshots clean verify
 
-      - name: Upload (store) JAR artifact to allow later download
+      - name: Verify shaded JAR exists
+        run: ls -lh target/*.jar
+
+      - name: Upload JaCoCo coverage report
+        uses: actions/upload-artifact@v7
+        with:
+          name: jacoco-report
+          path: target/site/jacoco/
+
+      - name: Upload (store) JAR artifact
         uses: actions/upload-artifact@v7
         with:
           name: github-ci-jar
