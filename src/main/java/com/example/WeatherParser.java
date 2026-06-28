@@ -10,6 +10,6 @@ public class WeatherParser {
     public List<WeatherForecast> parse(String json) {
         APIResponse response = gson.fromJson(json, APIResponse.class);
 
-        return response.list().stream().limit(3).map(e -> new WeatherForecast(e.time(),e.main().temp(),e.weather().get(0).description())).toList();
+        return response.list().stream().map(e -> new WeatherForecast(e.time(),e.main().temp(),e.weather().get(0).description())).toList();
     }
 }
