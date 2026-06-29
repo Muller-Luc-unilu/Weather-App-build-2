@@ -78,6 +78,42 @@ jobs:
         with:
           name: release-jar
           path: target/*.jar
+  deploy-site:
+    name: Build and deploy Maven site
+    runs-on: ubuntu-latest
+    needs: build-test-package-store
+
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+
+      - name: Set up JDK ${{ env.JDK_DIST }} version ${{ env.JDK_VERSION }}
+        uses: actions/setup-java@v5
+        with:
+          distribution: ${{ env.JDK_DIST }}
+          java-version: ${{ env.JDK_VERSION }}
+          cache: 'maven'
+
+      - name: Build Maven site
+        run: mvn --batch-mode site
+
+      - name: Upload site artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: target/site
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
       - name: Release to GitHub and upload JAR asset
         uses: softprops/action-gh-release@v3
