@@ -1,3 +1,4 @@
 package com.example;
 
-public record Weather(String description) {}
+public record Weather(String description) {
+}
