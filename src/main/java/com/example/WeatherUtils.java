@@ -1,49 +1,45 @@
 package com.example;
 
 import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class WeatherUtils {
 
-    public record WeatherEntry(String name, int count,String output) {}
+    public record WeatherEntry(String name, int count) {}
 
-    List<WeatherEntry> WEATHER = new ArrayList<>(List.of(
-            new WeatherEntry("clear sky", 0,"clear sky"),
-            new WeatherEntry("few clouds", 0,"few clouds"),
-            new WeatherEntry("scattered clouds", 0,"few scattered clouds"),
-            new WeatherEntry("broken clouds", 0 ,"few broken clouds"),
-            new WeatherEntry("shower rain", 0," bit of shower rain"),
-            new WeatherEntry("rain", 0," bit of rain"),
-            new WeatherEntry("thunderstorm", 0,"thunderstorm"),
-            new WeatherEntry("snow", 0,"a bit ofsnow"),
-            new WeatherEntry("mist", 0,"a bit misty")
-    ));
+    public String weatherScore(List<String> descriptions) 
+    {
+        Map<String, Integer> counts = new HashMap<>();
 
-    public String weatherScore(List<String> descriptions) {
-
-        // Count occurrences
-        for (String desc : descriptions) {
-            for (int i = 0; i < WEATHER.size(); i++) {
-                WeatherEntry e = WEATHER.get(i);
-                if (e.name().equals(desc)) {
-                    WEATHER.set(i, new WeatherEntry(e.name(), e.count() + 1, e.output()));
-                }
-            }
+        for (String description : descriptions) 
+        {
+        counts.merge(description, 1, Integer::sum);
         }
-        // Find max
-        return WEATHER.stream()
-                .max(Comparator.comparingInt(WeatherEntry::count))
-                .map(WeatherEntry::output)
-                .orElse("");
+
+        return counts.entrySet().stream().max(Map.Entry.comparingByValue()).map(Map.Entry::getKey).orElse("Unknown");
     }
+
     public List<WeatherForecast> filtertoDaytime(List<WeatherForecast> forecasts) {
-        return forecasts.stream()
-                .filter(f -> f.time().contains("09:00:00") || f.time().contains("12:00:00")|| f.time().contains("15:00:00")|| f.time().contains("18:00:00")|| f.time().contains("21:00:00"))
-                .toList();
+        return forecasts.stream().filter(f -> f.time().contains("09:00:00") || f.time().contains("12:00:00")|| f.time().contains("15:00:00")|| f.time().contains("18:00:00")|| f.time().contains("21:00:00")).toList();
     }
 
     public int setAverageTemperature(List<Double> temperature) {
         return (int)(temperature.stream().mapToDouble(Double::doubleValue).average().orElse(0.0));
+    }
+    public int setAverage_Humidity(List<Integer> humidity)
+    {
+       return (int) Math.round(humidity.stream().mapToInt(i -> i).average().orElse(0));
+    }
+
+    public Map<String, List<WeatherForecast>> getMap(List<WeatherForecast>forecast, Map<String, List<WeatherForecast>> byDay)
+    {
+        for(WeatherForecast f : forecast) 
+        {
+            String date = f.time().substring(0, 10);
+            byDay.computeIfAbsent(date, d -> new ArrayList<>()).add(f);
+        }
+        return byDay;
     }
 }
