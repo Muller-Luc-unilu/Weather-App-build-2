@@ -78,6 +78,12 @@ jobs:
         with:
           name: release-jar
           path: target/*.jar
+
+      - name: Release to GitHub and upload JAR asset
+        uses: softprops/action-gh-release@v3
+        with:
+          files: target/*.jar
+
   deploy-site:
     name: Build and deploy Maven site
     runs-on: ubuntu-latest
@@ -114,8 +120,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Release to GitHub and upload JAR asset
-        uses: softprops/action-gh-release@v3
-        with:
-          files: target/*.jar
