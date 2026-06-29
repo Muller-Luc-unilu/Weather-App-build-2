@@ -5,7 +5,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-public class WeatherApi{
+public class WeatherApi {
 
     private final String apikey = "7c51019338db6a416fa09f226ced1ada";
     private final HttpClient client = HttpClient.newHttpClient();
