@@ -1,10 +1,11 @@
 package com.example;
 
-import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
+import com.google.gson.annotations.SerializedName;
+
 public record ForecastEntry(
-        @SerializedName("dt_txt") String time,
-        Main main,
-        List<Weather> weather
-) {}
+                @SerializedName("dt_txt") String time,
+                Main main,
+                List<Weather> weather) {
+}
