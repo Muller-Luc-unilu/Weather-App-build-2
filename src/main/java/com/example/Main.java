@@ -1,3 +1,4 @@
 package com.example;
 
-public record Main(double temp,int humidity) {}
+public record Main(double temp, int humidity) {
+}
