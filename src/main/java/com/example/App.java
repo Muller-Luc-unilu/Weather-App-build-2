@@ -66,19 +66,24 @@ public class App {
             System.out.println("        DAILY SUMMARY");
             System.out.println("--------------------------------");
             System.out.println("Date       | temp | Hum.| Avg Sky");
-            for (var entry : byDay.entrySet()) {
-                String date = entry.getKey();
-                List<WeatherForecast> dayForecasts = entry.getValue();
 
-                List<Double> temps = dayForecasts.stream().map(WeatherForecast::temperature).toList();
-                List<Integer> hums = dayForecasts.stream().map(WeatherForecast::humidity).toList();
-                List<String> descs = dayForecasts.stream().map(WeatherForecast::description).toList();
+            byDay.entrySet().stream()
+                    .sorted(Map.Entry.comparingByKey()) // <-- sorts by date string
+                    .forEach(entry -> {
+                        String date = entry.getKey();
+                        List<WeatherForecast> dayForecasts = entry.getValue();
 
-                int avgTemp = weatherUtils.setAverageTemperature(temps);
-                int avgHum = weatherUtils.setAverage_Humidity(hums);
-                String sky = weatherUtils.weatherScore(descs);
-                System.out.println(date + " | " + avgTemp + "°C | " + avgHum + "% | " + sky);
-            }
+                        List<Double> temps = dayForecasts.stream().map(WeatherForecast::temperature).toList();
+                        List<Integer> hums = dayForecasts.stream().map(WeatherForecast::humidity).toList();
+                        List<String> descs = dayForecasts.stream().map(WeatherForecast::description).toList();
+
+                        int avgTemp = weatherUtils.setAverageTemperature(temps);
+                        int avgHum = weatherUtils.setAverage_Humidity(hums);
+                        String sky = weatherUtils.weatherScore(descs);
+
+                        System.out.println(date + " | " + avgTemp + "°C | " + avgHum + "% | " + sky);
+                    });
+
             System.out.println();
             System.out.println("--------------------------------");
             System.out.println("TOTAL AVERAGES FOR UPCOMING DAYS  ");
@@ -97,4 +102,3 @@ public class App {
         }
     }
 }
-
